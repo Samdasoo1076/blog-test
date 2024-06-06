@@ -1,0 +1,143 @@
+---
+title: 수학 노트 생성, 분류 코드
+date: '2024-05-31'
+tags: ['next js', 'math', 'ols']
+draft: false
+summary: '수학 조판을 만들어 마크다운 문법에서 수학적 노트 만들기'
+---
+
+# 소개
+
+수학 방정식의 구문 분석 및 표시는 이 블로그 템플릿에 포함되어 있습니다. 수학 구문 분석은 `remark-math`와 `rehype-katex`에 의해 가능합니다.
+KaTeX 및 관련 글꼴은 `\_document.js`에 포함되어 있으므로 모든 페이지에서 자유롭게 사용할 수 있습니다.
+[^footnote]
+
+[^footnote]: 지원되는 TeX 함수의 전체 목록은 [KaTeX documentation](https://katex.org/docs/supported.html) 문서에서 찾아 보실수 있습니다.
+
+인라인 수학 기호는 `$` 기호 사이에 용어를 묶어 포함할 수 있습니다.
+
+수학 코드 블록은 '$$'로 표시됩니다.
+
+수학 대신 '$' 기호를 사용하려는 경우 이스케이프 처리('$')하거나 HTML 엔터티('&dollar;')를 지정할 수 있습니다 [^2]
+
+인라인 또는 수동으로 열거된 각주도 지원됩니다. 위의 링크를 클릭하면 작동 방식을 확인할 수 있습니다.
+
+[^2]: \$10 and &dollar;20.
+
+# 수학 노트 생성, 분류 코드
+
+행렬 표기법을 사용하여 $n$는 관측값의 개수를 나타내고 $k$는 회귀 변수의 개수를 나타냅니다.
+
+결과 변수 $mathbf{Y}$의 벡터는 $n times 1$ 행렬입니다.
+
+```tex
+\mathbf{Y} = \left[\begin{array}
+  {c}
+  y_1 \\
+  . \\
+  . \\
+  . \\
+  y_n
+\end{array}\right]
+```
+
+$$
+\mathbf{Y} = \left[\begin{array}
+  {c}
+  y_1 \\
+  . \\
+  . \\
+  . \\
+  y_n
+\end{array}\right]
+$$
+
+회귀 변수 행렬 $mathbf{X}$는 $n times k$ 행렬입니다(또는 각 행은 $k times 1$ 벡터입니다),
+
+```latex
+\mathbf{X} = \left[\begin{array}
+  {ccccc}
+  x_{11} & . & . & . & x_{1k} \\
+  . & . & . & . & .  \\
+  . & . & . & . & .  \\
+  . & . & . & . & .  \\
+  x_{n1} & . & . & . & x_{nn}
+\end{array}\right] =
+\left[\begin{array}
+  {c}
+  \mathbf{x}'_1 \\
+  . \\
+  . \\
+  . \\
+  \mathbf{x}'_n
+\end{array}\right]
+```
+
+$$
+\mathbf{X} = \left[\begin{array}
+  {ccccc}
+  x_{11} & . & . & . & x_{1k} \\
+  . & . & . & . & .  \\
+  . & . & . & . & .  \\
+  . & . & . & . & .  \\
+  x_{n1} & . & . & . & x_{nn}
+\end{array}\right] =
+\left[\begin{array}
+  {c}
+  \mathbf{x}'_1 \\
+  . \\
+  . \\
+  . \\
+  \mathbf{x}'_n
+\end{array}\right]
+$$
+
+오차항 $mathbf{U}$의 벡터는 times 1$$n 행렬이기도 합니다.
+
+상황에 따라 벡터 표기법을 사용하는 것이 좋습니다. 일관성을 위해 굵고 작은 x를 사용하여 벡터를 나타내고 대문자를 사용하여 행렬을 나타냅니다. 단일 관측값은 첨자로 표시됩니다.
+
+## 최소 제곱
+
+**주어진 값**:  
+$$y_i = \mathbf{x}'_i \beta + u_i$$
+
+**문제 예시**:
+
+1. Linearity (given above)
+2. $E(\mathbf{U}|\mathbf{X}) = 0$ (conditional independence)
+3. rank($\mathbf{X}$) = $k$ (no multi-collinearity i.e. full rank)
+4. $Var(\mathbf{U}|\mathbf{X}) = \sigma^2 I_n$ (Homoskedascity)
+
+**정답**:  
+Find $\beta$ that minimises the sum of squared errors:
+
+$$
+Q = \sum_{i=1}^{n}{u_i^2} = \sum_{i=1}^{n}{(y_i - \mathbf{x}'_i\beta)^2} = (Y-X\beta)'(Y-X\beta)
+$$
+
+**문제 정답**:  
+Hints: $Q$ is a $1 \times 1$ scalar, by symmetry $\frac{\partial b'Ab}{\partial b} = 2Ab$.
+
+Take matrix derivative w.r.t $\beta$:
+
+```tex
+\begin{aligned}
+  \min Q           & = \min_{\beta} \mathbf{Y}'\mathbf{Y} - 2\beta'\mathbf{X}'\mathbf{Y} +
+  \beta'\mathbf{X}'\mathbf{X}\beta \\
+                   & = \min_{\beta} - 2\beta'\mathbf{X}'\mathbf{Y} + \beta'\mathbf{X}'\mathbf{X}\beta \\
+  \text{[FOC]}~~~0 & =  - 2\mathbf{X}'\mathbf{Y} + 2\mathbf{X}'\mathbf{X}\hat{\beta}                  \\
+  \hat{\beta}      & = (\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}'\mathbf{Y}                              \\
+                   & = (\sum^{n} \mathbf{x}_i \mathbf{x}'_i)^{-1} \sum^{n} \mathbf{x}_i y_i
+\end{aligned}
+```
+
+$$
+\begin{aligned}
+  \min Q           & = \min_{\beta} \mathbf{Y}'\mathbf{Y} - 2\beta'\mathbf{X}'\mathbf{Y} +
+  \beta'\mathbf{X}'\mathbf{X}\beta \\
+                   & = \min_{\beta} - 2\beta'\mathbf{X}'\mathbf{Y} + \beta'\mathbf{X}'\mathbf{X}\beta \\
+  \text{[FOC]}~~~0 & =  - 2\mathbf{X}'\mathbf{Y} + 2\mathbf{X}'\mathbf{X}\hat{\beta}                  \\
+  \hat{\beta}      & = (\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}'\mathbf{Y}                              \\
+                   & = (\sum^{n} \mathbf{x}_i \mathbf{x}'_i)^{-1} \sum^{n} \mathbf{x}_i y_i
+\end{aligned}
+$$

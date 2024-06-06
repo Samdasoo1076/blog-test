@@ -1,0 +1,231 @@
+---
+title: '원티드 과제 제출 관련 공부한 내용 '
+date: '2024-06-03'
+tags: ['JavaScript', 'React', 'Next.js', 'Server Side Rendering', 'Static site']
+draft: false
+summary: 원티드 과제
+---
+
+### 1. JavaScript ES6+ 기능
+
+**문제:**
+JavaScript ES6 이후에 추가된 주요 기능 중에서, 템플릿 리터럴, 화살표 함수, 스프레드 연산자를 설명하고,
+이러한 기능들이 JavaScript 프로그래밍에 어떤 이점을 제공하는지 구체적인 예를 들어 설명해 주세요.
+
+**답변입력**
+
+- **템플릿 리터럴** : 문자열 템플릿을 더 직관적으로 작성할 수 있는 기능으로, ` backtick` (백팁) 문자를 사용하여 변수나 표현식을 쉽고 직관적, 시각적으로 도와줍니다. 아래는 예시 코드 입니다.
+
+```js
+const name = 'John'
+const greeting = `Hello, ${name}!`
+console.log(greeting) // 출력: Hello, John!
+```
+
+- **화살표 함수**: `function` 키워드 대신 => 화살표를 사용하여 함수를 정의 가능합니다. 단일 표현식의 결과를 자동으로 반환하고 중괄호와 `return` 키워드를 생략 가능합니다. 아래에 코드는 간단한 예시입니다.
+
+```js
+// 기존 코드
+const multiply = function (a, b) {
+  return a * b
+}
+
+// 화살표 함수로 변환한 코드
+const multiply = (a, b) => a * b
+console.log(multiply(5, 3))
+```
+
+- **스프레드 연산자**: 배열이나 객체를 펼쳐서 개별 요소로 분리할 수 있는 연산자입니다.
+  배열을 복사하거나 합칠 수 있습니다 아래는 간단한 예시입니다.
+
+```js
+// 배열 요소 합치기
+const arr1 = [1, 2, 3]
+const arr2 = [4, 5, 6]
+const combinedArray = [...arr1, ...arr2]
+console.log(combinedArray) // 출력: [1, 2, 3, 4, 5, 6]
+
+// 객체 합치기
+const obj1 = { a: 1, b: 2 }
+const obj2 = { c: 3, d: 4 }
+const combinedObject = { ...obj1, ...obj2 }
+console.log(combinedObject) // 출력: { a: 1, b: 2, c: 3, d: 4 }
+```
+
+한 줄 요약시 더욱 간결하고 효율적으로 작성할 수 있게 해주어 가독성을 향상시키고 개발 생산성을 높여줍니다
+
+### 2. React 컴포넌트의 종류와 차이
+
+**답변입력**
+**클래스형 컴포넌트** :
+
+```js
+import React, { Component } from 'react'
+
+class ClassComponent extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      count: 0,
+    }
+  }
+  handleClick = () => {
+    this.setState((prevState) => ({
+      count: prevState.count + 1,
+    }))
+  }
+  render() {
+    return (
+      <div>
+        <p>Count: {this.state.count}</p>
+        <button onClick={this.handleClick}>Increment</button>
+      </div>
+    )
+  }
+}
+export default ClassComponent
+```
+
+**함수형 컴포넌트** :
+
+```js
+import React, { useState } from 'react'
+
+const FunctionComponent = () => {
+  const [count, setCount] = useState(0)
+
+  const handleClick = () => {
+    setCount((prevCount) => prevCount + 1)
+  }
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={handleClick}>Increment</button>
+    </div>
+  )
+}
+export default FunctionComponent
+```
+
+위의 코드에서 보이는 것처럼, 클래스형 컴포넌트는 `class` 키워드를 사용하여 컴포넌트를 정의하고, `this.state`를 사용하여 상태를 관리하며, 라이프사이클 메서드를 사용할 수 있습니다. 반면 함수형 컴포넌트는 단순한 함수로 컴포넌트를 정의하고, `useState Hook`을 사용하여 상태 관리를 하여
+이러한 장점이 있습니다
+
+1. 별도의 constructor나 this를 사용할 필요가 없어 `useState`를 호출하는 것만으로도 상태를 선언하고 갱신할 수 있습니다.
+2. 상태 관리 로직을 컴포넌트 바깥으로 분리할 필요 없음, 상태 관리, 뷰 렌더링이 분리되어 유지보수하기 쉬워집니다.
+
+### 3. Next.js의 App Path Routing
+
+**문제:**
+Next.js 12.2 버전부터 도입된 App Path Routing에 대해 설명하고, 이전의 페이지 기반 라우팅과 어떻게 다른지, 그리고 이 새로운 라우팅 방식이 개발자에게 어떤 이점을 제공하는지 분석해 주세요.
+
+답변입력 :
+
+기존 페이지 기반 라우팅 :
+파일 구조 :
+pages/
+├── index.js
+├── about.js
+└── blog/
+└── [id].js
+
+**index.js**
+
+```js
+import Link from 'next/link'
+
+export default function Home() {
+  return (
+    <div>
+      <h1>Home Page</h1>
+      <Link href="/about">About</Link>
+    </div>
+  )
+}
+```
+
+**about.js**
+
+```js
+export default function About() {
+  return <h1>About Page</h1>
+}
+```
+
+**[id].js**
+
+```js
+import { useRouter } from 'next/router'
+
+export default function BlogPost() {
+  const router = useRouter()
+  const { id } = router.query
+
+  return <h1>Blog Post {id}</h1>
+}
+```
+
+App Path Routing :
+파일 구조 :
+app/
+├── page.js
+├── about/
+│ └── page.js
+└── blog/
+└── [id]/
+└── page.js
+
+**app/page.js**
+
+```js
+import Link from 'next/link'
+
+export default function Home() {
+  return (
+    <div>
+      <h1>Home Page</h1>
+      <Link href="/about">About</Link>
+    </div>
+  )
+}
+```
+
+**app/about/page.js**
+
+```js
+export default function About() {
+  return <h1>About Page</h1>
+}
+```
+
+**app/blog/[id]/page.js:**
+
+```js
+import { useRouter } from 'next/router'
+
+export default function BlogPost() {
+  const router = useRouter()
+  const { id } = router.query
+
+  return <h1>Blog Post {id}</h1>
+}
+```
+
+**차이점 요약**
+
+1. **페이지 기반 라우팅** : 각 페이지는 `pages` 디렉토리에 개별 파일로 존재, 파일 경로가 URL 경로를 결정
+2. **App Path Routing** : `app` 디렉토리에서 경로에 따라 컴포넌트를 동적으로 렌더링, 보다 유연하고 관리하기 쉽습니다.
+3. 간편한 라우팅 구현, 유연한 경로 설정, 코드 분할, 최적화
+
+### 4. 서버 사이드 렌더링과 정적 사이트 생성
+
+**문제:**
+Next.js에서 서버 사이드 렌더링(SSR)과 정적 사이트 생성(SSG)의 차이를 설명하고, 각각 어떤 시나리오에서 사용되어야 하는지 예를 들어 설명해 주세요.
+
+답변입력
+
+**서버사이드 렌더링** : 사용자가 서버에 요청시 HTML 생성하여 클라이언트에 전송 (최신 데이터 전송해줌)
+**정적 사이트 생성** : 빌드시 HTML 생성 후 CDN 배포 (미리 정해진 데이터가 이미 표시 되어있음)
+
+**서버사이드 렌더링** 사용 시나리오 : 실시간 사용자 데이터 집계가 필요한 대쉬보드, 사용자 프로필, Ex. 영화관 예매 사이트, 기차 좌석 예매
+
+**정적 사이트** : 블로그, 설명서, 소개 사이트 등이 있습니다
