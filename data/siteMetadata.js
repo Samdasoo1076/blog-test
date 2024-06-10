@@ -3,11 +3,11 @@ const siteMetadata = {
   title: 'Samdasoo1076',
   author: 'Samdasoo1076 (이지민)',
   headerTitle: '이지민',
-  description: 'Next.js와 Tailwind.css 사용하여 블로그 작성',
-  language: 'en-us',
+  description: 'Next.js와 Tailwind.css',
+  language: 'ko-KR',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://tailwind-nextjs-starter-blog.vercel.app',
-  siteRepo: 'https://github.com/timlrx/tailwind-nextjs-starter-blog',
+  siteUrl: 'https://blog-samdasoo1076-test.vercel.app',
+  siteRepo: 'https://github.com/Samdasoo1076/blog-test',
   siteLogo: '/static/images/logo.png',
   socialBanner: '/static/images/twitter-card.png',
   mastodon: 'https://mastodon.social/@mastodonuser',
@@ -20,7 +20,7 @@ const siteMetadata = {
   linkedin: 'https://www.linkedin.com',
   threads: 'https://www.threads.net',
   instagram: 'https://www.instagram.com/leejimin2134/',
-  locale: 'en-US',
+  locale: 'ko-KR',
   analytics: {
     // If you want to use an analytics provider you have to add it to the
     // content security policy in the `next.config.js` file.

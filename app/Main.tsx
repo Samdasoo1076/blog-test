@@ -1,3 +1,6 @@
+'use client'
+import { useEffect, useState } from 'react'
+
 import Link from '@/components/Link'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
@@ -7,6 +10,19 @@ import NewsletterForm from 'pliny/ui/NewsletterForm'
 const MAX_DISPLAY = 5
 
 export default function Home({ posts }) {
+  const [currentTime, setCurrentTime] = useState('')
+
+  useEffect(() => {
+    const updateTime = () => {
+      const date = new Date()
+      setCurrentTime(date.toLocaleTimeString())
+    }
+
+    updateTime()
+    const timer = setInterval(updateTime, 1000) // 매 초마다 시간 업데이트
+
+    return () => clearInterval(timer)
+  }, [])
   return (
     <>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -14,6 +30,9 @@ export default function Home({ posts }) {
           <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
             최근 글
           </h1>
+          <p className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+            {currentTime}
+          </p>
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
             {siteMetadata.description}
           </p>
