@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from './Link'
 import headerNavLinks from '@/data/headerNavLinks'
+import React from 'react'
 
 const MobileNav = () => {
   const [navShow, setNavShow] = useState(false)
