@@ -42,7 +42,7 @@ export default function Home({ posts }) {
     ],
   }
 
-  const chunkArray = (array, size) => {
+  const chunkArray = (array: string | unknown[], size: number) => {
     const chunkedArr = []
     for (let i = 0; i < array.length; i += size) {
       chunkedArr.push(array.slice(i, i + size))
