@@ -1,6 +1,5 @@
 'use client'
 import { useEffect, useState } from 'react'
-
 import Link from '@/components/Link'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
@@ -11,7 +10,19 @@ import DonutChart from '@/components/DonutChart'
 
 const MAX_DISPLAY = 5
 
-export default function Home({ posts }) {
+interface Post {
+  slug: string
+  date: string
+  title: string
+  summary: string
+  tags: string[]
+}
+
+interface HomeProps {
+  posts: Post[]
+}
+
+export default function Home({ posts }: HomeProps) {
   const [currentTime, setCurrentTime] = useState('')
 
   useEffect(() => {
@@ -25,6 +36,7 @@ export default function Home({ posts }) {
 
     return () => clearInterval(timer)
   }, [])
+
   const data = {
     labels: ['이', '지', '민'],
     datasets: [
@@ -42,15 +54,14 @@ export default function Home({ posts }) {
     ],
   }
 
-  const chunkArray = (array: string | unknown[], size: number) => {
-    const chunkedArr = []
-    for (let i = 0; i < array.length; i += size) {
-      chunkedArr.push(array.slice(i, i + size))
+  const groupedPosts = posts.reduce((acc: Post[][], post, index) => {
+    const groupIndex = Math.floor(index / 4)
+    if (!acc[groupIndex]) {
+      acc[groupIndex] = []
     }
-    return chunkedArr
-  }
-
-  const groupedPosts = chunkArray(posts, 4)
+    acc[groupIndex].push(post)
+    return acc
+  }, [])
 
   return (
     <>
@@ -72,11 +83,14 @@ export default function Home({ posts }) {
         <div className="space-y-12">
           {!posts.length && 'No posts found.'}
           {groupedPosts.map((group, groupIndex) => (
-            <div key={groupIndex} className="grid grid-cols-1 gap-12 md:grid-cols-2 xl:grid-cols-4">
+            <div key={groupIndex} className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
               {group.map((post) => {
                 const { slug, date, title, summary, tags } = post
                 return (
-                  <article key={slug} className="space-y-4">
+                  <article
+                    key={slug}
+                    className="rounded-lg border border-gray-200 p-4 shadow-md dark:border-gray-700 dark:bg-gray-800"
+                  >
                     <dl>
                       <dt className="sr-only">Published on</dt>
                       <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
