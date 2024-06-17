@@ -14,7 +14,7 @@ interface Post {
   slug: string
   date: string
   title: string
-  summary: string
+  summary?: string
   tags: string[]
 }
 
