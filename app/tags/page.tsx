@@ -1,5 +1,4 @@
 import Link from '@/components/Link'
-import Tag from '@/components/Tag'
 import { slug } from 'github-slugger'
 import tagData from 'app/tag-data.json'
 import { genPageMetadata } from 'app/seo'
@@ -12,23 +11,43 @@ export default function TagsPage() {
   const tagKeys = Object.keys(tagCounts)
   const sortedTags = tagKeys.sort((a, b) => tagCounts[b] - tagCounts[a])
 
+  // 태그 카운트에 따라 배경색 클래스를 반환하는 함수
+  const getColorClass = (count: number) => {
+    const maxCount = Math.max(...Object.values(tagCounts))
+    const minCount = Math.min(...Object.values(tagCounts))
+    const range = maxCount - minCount
+
+    // count가 클수록 진한 색, 작을수록 연한 색으로 계산
+    const brightness = Math.round(((count - minCount) / range) * 100)
+
+    if (brightness < 30) {
+      return 'bg-sky-300 text-indigo-400 dark:bg-green-300 dark:text-gray-800'
+    } else if (brightness < 60) {
+      return 'bg-sky-400 text-indigo-700 dark:bg-green-400 dark:text-white-900'
+    } else {
+      return 'bg-sky-500 text-indigo-900 dark:bg-green-500 dark:text-white'
+    }
+  }
+
   return (
-    <div className="mt-24 flex flex-col items-start justify-start divide-y divide-gray-200 dark:divide-gray-700 md:flex-row md:items-center md:justify-center md:space-x-6 md:divide-y-0">
-      <div className="space-y-5 md:space-y-0 md:border-r-2 md:px-6">
-        <h1 className="text-4xl font-bold leading-10 text-gray-900 dark:text-gray-100 md:text-6xl md:leading-14">
-          태그
-        </h1>
-      </div>
-      <div className="mt-6 flex max-w-lg flex-wrap md:mt-0">
-        {tagKeys.length === 0 && <p>No tags found.</p>}
+    <div className="mt-24 px-4 py-8 sm:px-6 lg:px-8">
+      <h1 className="mb-8 text-4xl font-bold leading-10 text-gray-900 dark:text-gray-100">태그</h1>
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        {sortedTags.length === 0 && <p>No tags found.</p>}
         {sortedTags.map((tag) => (
-          <div key={tag} className="mb-2 mr-5">
+          <div
+            key={tag}
+            className={`overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700 ${getColorClass(tagCounts[tag])}`}
+          >
             <Link
               href={`/tags/${slug(tag)}`}
-              className="ml-2 inline-flex items-center rounded-md border border-transparent bg-gray-200 px-3 py-1 text-sm font-semibold uppercase text-gray-600 hover:bg-primary-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-primary-400 dark:hover:text-white"
+              className="block transform px-4 py-3 text-base font-semibold uppercase transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50 dark:text-gray-900 dark:hover:text-green-600"
               aria-label={`View posts tagged ${tag}`}
             >
-              {tag} ({tagCounts[tag]})
+              <div className="flex items-center justify-between">
+                <span>{tag}</span>
+                <span className="text-sm text-gray-900">({tagCounts[tag]})</span>
+              </div>
             </Link>
           </div>
         ))}
