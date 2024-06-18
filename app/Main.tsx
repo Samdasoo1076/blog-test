@@ -5,7 +5,7 @@ import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
 import NewsletterForm from 'pliny/ui/NewsletterForm'
-import CoverImage from '../components/CoverImage' // CoverImage 컴포넌트 임포트
+import React from 'react'
 
 const MAX_DISPLAY = 5
 
@@ -13,9 +13,8 @@ interface Post {
   slug: string
   date: string
   title: string
-  summary?: string
+  summary?: string // String | Undefined 속성 선언
   tags: string[]
-  images: string[] // 변경: coverImage -> images로 수정
 }
 
 interface HomeProps {
@@ -32,10 +31,27 @@ export default function Home({ posts }: HomeProps) {
     }
 
     updateTime()
-    const timer = setInterval(updateTime, 1000)
+    const timer = setInterval(updateTime, 1000) // 매 초마다 시간 업데이트
 
     return () => clearInterval(timer)
   }, [])
+
+  const data = {
+    labels: ['이', '지', '민'],
+    datasets: [
+      {
+        label: '# of Votes',
+        data: [174, 72, 22],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+        ],
+        borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)'],
+        borderWidth: 1,
+      },
+    ],
+  }
 
   const groupedPosts = posts.reduce((acc: Post[][], post, index) => {
     const groupIndex = Math.floor(index / 4)
@@ -65,13 +81,12 @@ export default function Home({ posts }: HomeProps) {
           {groupedPosts.map((group, groupIndex) => (
             <div key={groupIndex} className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
               {group.map((post) => {
-                const { slug, date, title, summary, tags, images } = post // coverImage -> images로 변경
+                const { slug, date, title, summary, tags } = post
                 return (
                   <article
                     key={slug}
-                    className="relative transform overflow-hidden rounded-lg border border-gray-200 bg-gray-50 p-4 shadow-md transition-all duration-300 ease-in-out hover:-rotate-2 hover:scale-105 dark:border-gray-700 dark:bg-gray-800"
+                    className="flex flex-col justify-between rounded-lg border border-gray-200 p-4 shadow-md dark:border-gray-700 dark:bg-gray-800"
                   >
-                    <CoverImage title={title} images={images} /> {/* CoverImage 컴포넌트 추가 */}
                     <div>
                       <dl>
                         <dt className="sr-only">Published on</dt>
@@ -101,7 +116,7 @@ export default function Home({ posts }: HomeProps) {
                     <div className="mt-4 flex justify-start">
                       <Link
                         href={`/blog/${slug}`}
-                        className="relative inline-block transform text-blue-400 transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:text-blue-600 dark:text-green-400 dark:hover:text-green-600"
+                        className="transform text-blue-400 transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:text-blue-600 dark:text-green-400 dark:hover:text-green-600"
                         aria-label={`Read more: "${title}"`}
                       >
                         자세히 보기 &rarr;
@@ -119,7 +134,7 @@ export default function Home({ posts }: HomeProps) {
         <div className="flex justify-end text-base font-medium leading-6">
           <Link
             href="/blog"
-            className="relative inline-block transform text-blue-400 transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:text-blue-600 dark:text-green-400 dark:hover:text-green-600"
+            className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
             aria-label="All posts"
           >
             모든 노트 &rarr;
