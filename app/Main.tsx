@@ -6,7 +6,6 @@ import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
 import NewsletterForm from 'pliny/ui/NewsletterForm'
 import React from 'react'
-import DonutChart from '@/components/DonutChart'
 
 const MAX_DISPLAY = 5
 
@@ -14,7 +13,7 @@ interface Post {
   slug: string
   date: string
   title: string
-  summary?: string
+  summary?: string // String | Undefined 속성 선언
   tags: string[]
 }
 
@@ -73,9 +72,6 @@ export default function Home({ posts }: HomeProps) {
           <p className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
             {currentTime}
           </p>
-          <div className="h-48 w-48">
-            <DonutChart data={data} />
-          </div>
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
             {siteMetadata.description}
           </p>
@@ -89,34 +85,42 @@ export default function Home({ posts }: HomeProps) {
                 return (
                   <article
                     key={slug}
-                    className="rounded-lg border border-gray-200 p-4 shadow-md dark:border-gray-700 dark:bg-gray-800"
+                    className="relative transform overflow-hidden rounded-lg border border-gray-200 bg-gray-50 p-4 shadow-md transition-all duration-300 ease-in-out hover:-rotate-2 hover:scale-105 dark:border-gray-700 dark:bg-gray-800"
                   >
-                    <dl>
-                      <dt className="sr-only">Published on</dt>
-                      <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-                        <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
-                      </dd>
-                    </dl>
-                    <div className="space-y-2">
-                      <h2 className="text-2xl font-bold leading-8 tracking-tight">
-                        <Link href={`/blog/${slug}`} className="text-gray-900 dark:text-gray-100">
-                          {title}
-                        </Link>
-                      </h2>
-                      <div className="flex flex-wrap">
-                        {tags.map((tag) => (
-                          <Tag key={tag} text={tag} />
-                        ))}
+                    <div>
+                      <dl>
+                        <dt className="sr-only">Published on</dt>
+                        <dd className="text-base font-medium leading-6 text-blue-400 dark:text-green-400">
+                          <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+                        </dd>
+                      </dl>
+                      <div className="space-y-2">
+                        <h2 className="text-2xl font-bold leading-8 tracking-tight">
+                          <Link
+                            href={`/blog/${slug}`}
+                            className="transform text-gray-900 transition-transform duration-300 ease-in-out hover:scale-105 dark:text-gray-100"
+                          >
+                            {title}
+                          </Link>
+                        </h2>
+                        <div className="flex flex-wrap">
+                          {tags.map((tag) => (
+                            <Tag key={tag} text={tag} />
+                          ))}
+                        </div>
+                        <p className="prose max-w-none text-gray-500 dark:text-gray-400">
+                          {summary}
+                        </p>
                       </div>
-                      <p className="prose max-w-none text-gray-500 dark:text-gray-400">{summary}</p>
                     </div>
-                    <div className="text-base font-medium leading-6">
+                    <div className="mt-4 flex justify-start">
                       <Link
                         href={`/blog/${slug}`}
-                        className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+                        className="relative inline-block transform text-blue-400 transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:text-blue-600 dark:text-green-400 dark:hover:text-green-600"
                         aria-label={`Read more: "${title}"`}
                       >
                         자세히 보기 &rarr;
+                        <span className="absolute bottom-0 left-0 h-0.5 w-full scale-x-0 transform bg-blue-400 transition-transform duration-300 ease-in-out hover:scale-x-100 dark:bg-green-400"></span>
                       </Link>
                     </div>
                   </article>
