@@ -1,3 +1,5 @@
+// Main.tsx
+
 'use client'
 import { useEffect, useState } from 'react'
 import Link from '@/components/Link'
@@ -5,20 +7,13 @@ import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
 import NewsletterForm from 'pliny/ui/NewsletterForm'
-import React from 'react'
+import CoverImage from '../components/CoverImage' // CoverImage 컴포넌트 임포트
+import { Blog, CoreContent } from '.contentlayer/generated' // CoreContent 타입 임포트
 
 const MAX_DISPLAY = 5
 
-interface Post {
-  slug: string
-  date: string
-  title: string
-  summary?: string // String | Undefined 속성 선언
-  tags: string[]
-}
-
 interface HomeProps {
-  posts: Post[]
+  posts: CoreContent<Blog>[] // CoreContent<Blog> 타입으로 설정
 }
 
 export default function Home({ posts }: HomeProps) {
@@ -31,29 +26,13 @@ export default function Home({ posts }: HomeProps) {
     }
 
     updateTime()
-    const timer = setInterval(updateTime, 1000) // 매 초마다 시간 업데이트
+    const timer = setInterval(updateTime, 1000)
 
     return () => clearInterval(timer)
   }, [])
 
-  const data = {
-    labels: ['이', '지', '민'],
-    datasets: [
-      {
-        label: '# of Votes',
-        data: [174, 72, 22],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-        ],
-        borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)'],
-        borderWidth: 1,
-      },
-    ],
-  }
-
-  const groupedPosts = posts.reduce((acc: Post[][], post, index) => {
+  // 포스트를 그룹으로 묶는 함수
+  const groupedPosts = posts.reduce((acc: CoreContent<Blog>[][], post, index) => {
     const groupIndex = Math.floor(index / 4)
     if (!acc[groupIndex]) {
       acc[groupIndex] = []
@@ -81,12 +60,15 @@ export default function Home({ posts }: HomeProps) {
           {groupedPosts.map((group, groupIndex) => (
             <div key={groupIndex} className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
               {group.map((post) => {
-                const { slug, date, title, summary, tags } = post
+                const { slug, date, title, summary, tags, images } = post
                 return (
                   <article
                     key={slug}
-                    className="flex flex-col justify-between rounded-lg border border-gray-200 p-4 shadow-md dark:border-gray-700 dark:bg-gray-800"
+                    className="relative transform overflow-hidden rounded-lg border border-gray-200 bg-gray-50 p-4 shadow-md transition-all duration-300 ease-in-out hover:-rotate-2 hover:scale-105 dark:border-gray-700 dark:bg-gray-800"
                   >
+                    {images && images.length > 0 && (
+                      <CoverImage title={title} images={images} /> // CoverImage 컴포넌트 추가
+                    )}
                     <div>
                       <dl>
                         <dt className="sr-only">Published on</dt>
@@ -116,7 +98,7 @@ export default function Home({ posts }: HomeProps) {
                     <div className="mt-4 flex justify-start">
                       <Link
                         href={`/blog/${slug}`}
-                        className="transform text-blue-400 transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:text-blue-600 dark:text-green-400 dark:hover:text-green-600"
+                        className="relative inline-block transform text-blue-400 transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:text-blue-600 dark:text-green-400 dark:hover:text-green-600"
                         aria-label={`Read more: "${title}"`}
                       >
                         자세히 보기 &rarr;
@@ -134,7 +116,7 @@ export default function Home({ posts }: HomeProps) {
         <div className="flex justify-end text-base font-medium leading-6">
           <Link
             href="/blog"
-            className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+            className="relative inline-block transform text-blue-400 transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:text-blue-600 dark:text-green-400 dark:hover:text-green-600"
             aria-label="All posts"
           >
             모든 노트 &rarr;
