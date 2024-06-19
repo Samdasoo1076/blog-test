@@ -10,6 +10,7 @@ import NewsletterForm from 'pliny/ui/NewsletterForm'
 import CoverImage from '../components/CoverImage' // CoverImage 컴포넌트 임포트
 import { Blog } from '.contentlayer/generated' // CoreContent 타입 임포트
 import { CoreContent } from '../types' // 새로 만든 타입 정의 파일에서 CoreContent 타입 임포트
+import AudioPlayer from '@/components/AudioPlayer'
 
 const MAX_DISPLAY = 5
 
@@ -129,6 +130,8 @@ export default function Home({ posts }: HomeProps) {
           <NewsletterForm />
         </div>
       )}
+      {/* <AudioPlayer audioSrc="static\audio\AJR.mp3" />
+      AudioPlayer 컴포넌트에 경로 전달 */}
     </>
   )
 }
