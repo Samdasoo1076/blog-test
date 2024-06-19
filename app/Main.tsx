@@ -8,7 +8,8 @@ import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
 import NewsletterForm from 'pliny/ui/NewsletterForm'
 import CoverImage from '../components/CoverImage' // CoverImage 컴포넌트 임포트
-import { Blog, CoreContent } from '.contentlayer/generated' // CoreContent 타입 임포트
+import { Blog } from '.contentlayer/generated' // CoreContent 타입 임포트
+import { CoreContent } from '../types' // 새로 만든 타입 정의 파일에서 CoreContent 타입 임포트
 
 const MAX_DISPLAY = 5
 
