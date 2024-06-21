@@ -9,9 +9,7 @@ export default function NotFound() {
         </h1>
       </div>
       <div className="max-w-md">
-        <p className="mb-4 text-xl font-bold leading-normal md:text-2xl">
-          test page
-        </p>
+        <p className="mb-4 text-xl font-bold leading-normal md:text-2xl">test page</p>
         <p className="mb-8">당장 돌아가세요</p>
         <Link
           href="/"
