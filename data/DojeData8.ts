@@ -3,6 +3,8 @@ interface doje {
   description: string
   href?: string
   imgSrc?: string
+  github?: string
+  instar?: string
 }
 
 const DojeData8: doje[] = [

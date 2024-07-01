@@ -29,7 +29,8 @@ export default function Doje8() {
               description={d.description}
               imgSrc={d.imgSrc}
               href={d.href}
-              github={undefined}
+              github={d.github}
+              instar={d.instar}
             />
           ))}
         </div>
