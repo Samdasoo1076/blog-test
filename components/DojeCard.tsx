@@ -1,15 +1,16 @@
+// DojeCard.tsx
+
 import React from 'react'
 import Image from './Image'
 import Link from './Link'
 import SocialIcon from '@/components/social-icons'
-import siteMetadata from '@/data/siteMetadata'
 
-const DojeCard = ({ title, description, imgSrc, href }) => (
+const DojeCard = ({ title, description, imgSrc, href, github, instar }) => (
   <div className="md max-w-[544px] p-4 md:w-1/2">
     <div
       className={`${
         imgSrc && 'h-full'
-      }  overflow-hidden rounded-md border-b-2 border-gray-200 border-opacity-60 dark:border-gray-700`}
+      } overflow-hidden rounded-md border-b-2 border-gray-200 border-opacity-60 dark:border-gray-700`}
     >
       {imgSrc &&
         (href ? (
@@ -50,8 +51,11 @@ const DojeCard = ({ title, description, imgSrc, href }) => (
             className="text-base font-medium leading-6 text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
             aria-label={`Link to ${title}`}
           ></Link>
-        )}
-        {href && <SocialIcon kind="github" href={siteMetadata.github} size={6} />}
+        )}{' '}
+        <div className="flex items-center space-x-2">
+          {href && <SocialIcon kind="github" href={github} size={6} />}
+          {href && <SocialIcon kind="instagram" href={instar} size={6} />}
+        </div>
       </div>
     </div>
   </div>

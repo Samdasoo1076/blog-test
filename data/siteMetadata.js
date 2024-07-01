@@ -20,6 +20,7 @@ const siteMetadata = {
   linkedin: 'https://www.linkedin.com',
   threads: 'https://www.threads.net',
   instagram: 'https://www.instagram.com/leejimin2134/',
+  copy: 'Copyright ⓒ 2024 상일미디어고등학교 도제반 All rights reserved',
   locale: 'ko-KR',
   analytics: {
     // If you want to use an analytics provider you have to add it to the
