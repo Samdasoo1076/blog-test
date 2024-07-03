@@ -34,5 +34,7 @@ ex. #123 [feat] 로그인 구현
 | test     | 테스트 코드 작성                                                 |
 | hotfix   | hotfix                                                           |
 
-vercel로 배포시
-커밋 전 `터미널`에서 `prettier --write .` 명령어 입력해야 소스 코드 정렬됨.
+## Check List
+
+1. 커밋 전 `터미널`에서 `yarn prettier --write .` 소스 코드 정렬
+2. 프로젝트 첫 시작 시 `npm install husky --save-dev`, `npm husky install`, `npx husky add .husky/pre-commit "npx lint-staged` husky 설치, 초기화, Git hooks 재설정
