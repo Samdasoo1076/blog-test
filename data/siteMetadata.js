@@ -9,7 +9,7 @@ const siteMetadata = {
   siteUrl: 'https://blog-samdasoo1076-test.vercel.app',
   siteRepo: 'https://github.com/Samdasoo1076/blog-test',
   siteLogo: '/static/images/logo.png',
-  socialBanner: '/static/images/twitter-card.png',
+  socialBanner: '/static/images/post.png',
   mastodon: 'https://mastodon.social/@mastodonuser',
   email: 'myucheu0617@gmail.com',
   github: 'https://github.com/Samdasoo1076',
