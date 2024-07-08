@@ -68,13 +68,13 @@ const siteMetadata = {
       metadata: '0',
       // theme example: light, dark, dark_dimmed, dark_high_contrast
       // transparent_dark, preferred_color_scheme, custom
-      theme: 'light',
+      theme: 'dark_high_contrast',
       // theme when dark mode
-      darkTheme: 'transparent_dark',
+      darkTheme: 'preferred_color_scheme',
       // If the theme option above is set to 'custom`
       // please provide a link below to your custom theme css file.
       // example: https://giscus.app/themes/custom_example.css
-      themeURL: '',
+      themeURL: 'https://giscus.app/themes/custom_example.css',
       // This corresponds to the `data-lang="en"` in giscus's configurations
       lang: 'ko',
     },
