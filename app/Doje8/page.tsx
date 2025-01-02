@@ -4,13 +4,21 @@ import React, { useEffect, useState } from 'react'
 import DojeData8 from '@/data/DojeData8'
 import DojeCard from '@/components/DojeCard'
 
+interface Customer {
+  CustomerId: number
+  CompanyName: string
+  ContactName: string
+}
+
 export default function Doje8() {
-  const [customers, setCustomers] = useState([])
+  const [customers, setCustomers] = useState<Customer[]>([])
 
   useEffect(() => {
     fetch('https://d1-tutorial.myucheu0617.workers.dev/api/beverages')
       .then((response) => response.json())
-      .then((data) => setCustomers(data))
+      .then((data) => {
+        setCustomers(data) // API 응답 데이터가 Customer[] 타입이어야 함
+      })
       .catch((error) => console.error('Error fetching data: ', error))
   }, [])
 
