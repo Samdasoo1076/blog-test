@@ -1,15 +1,19 @@
+'use client'
+
+import React, { useEffect, useState } from 'react'
 import DojeData8 from '@/data/DojeData8'
 import DojeCard from '@/components/DojeCard'
-import { genPageMetadata } from 'app/seo'
-import React from 'react'
-
-export const metadata = genPageMetadata({ title: '도제 8기' })
 
 export default function Doje8() {
-  const socialLinks = [
-    { kind: 'github', href: 'https://github.com/username' },
-    { kind: 'instagram', username: 'leejimin2134' },
-  ]
+  const [customers, setCustomers] = useState([])
+
+  useEffect(() => {
+    fetch('https://d1-tutorial.myucheu0617.workers.dev/api/beverages')
+      .then((response) => response.json())
+      .then((data) => setCustomers(data))
+      .catch((error) => console.error('Error fetching data: ', error))
+  }, [])
+
   return (
     <div className="divide-y divide-gray-200 dark:divide-gray-700">
       <div className="space-y-2 pb-8 pt-6 md:space-y-5">
@@ -32,6 +36,12 @@ export default function Doje8() {
               github={d.github}
               instar={d.instar}
             />
+          ))}
+          {customers.map((customer) => (
+            <div key={customer.CustomerId}>
+              <h3>{customer.CompanyName}</h3>
+              <p>{customer.ContactName}</p>
+            </div>
           ))}
         </div>
       </div>
